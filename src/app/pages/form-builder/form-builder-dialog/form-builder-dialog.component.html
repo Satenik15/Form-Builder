@@ -1,0 +1,43 @@
+<form class="form-builder-dialog" [formGroup]="form" (ngSubmit)="onSubmit($event)">
+  <mat-form-field>
+    <mat-label>Question type</mat-label>
+    <mat-select matNativeControl required formControlName="questionType" (selectionChange)="onQuestionTypeChange()">
+      <mat-option value="checkbox">Checkbox list</mat-option>
+      <mat-option value="paragraph">Paragraph</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Type question here</mat-label>
+    <input matInput formControlName="question">
+  </mat-form-field>
+
+  @if(form.controls.questionType.value === 'checkbox') {
+  <ng-container formArrayName="answers">
+    @for (answer of answers.controls; track $index) {
+    <div class="lesson-form-row" [formGroupName]="$index">
+      <mat-form-field class="example-full-width">
+        <mat-label>Type answer here</mat-label>
+        <input matInput formControlName="answer" [required]="form.controls.questionType.value === 'checkbox'">
+      </mat-form-field>
+    </div>
+    }
+  </ng-container>
+
+  <button class="another-answer-btn" type="button" [disabled]="answers.controls.length === 5" (click)="addAnswer()">
+    <mat-icon>add</mat-icon>
+    Add another answer
+  </button>
+  }
+
+  <section class="checkboxes-wrapper">
+    @if(form.controls.questionType.value === 'checkbox') {
+    <mat-checkbox class="example-margin" color="primary" formControlName="specificAnswer">
+      Allow user to specify their own answer
+    </mat-checkbox>
+    }
+    <mat-checkbox class="example-margin" color="primary" formControlName="required">
+      This field is required
+    </mat-checkbox>
+  </section>
+  <button mat-stroked-button class="submit-btn" type="submit" color="primary">Submit</button>
+</form>

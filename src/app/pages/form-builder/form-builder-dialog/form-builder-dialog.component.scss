@@ -1,0 +1,32 @@
+.form-builder-dialog {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    .another-answer-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #673ab7;
+        margin-left: -4px;
+    }
+
+    .checkboxes-wrapper {
+        display: flex;
+        flex-direction: column;
+        margin-left: -9px;
+    }
+
+    .submit-btn {
+        width: 150px;
+        margin-left: auto;
+    }
+}

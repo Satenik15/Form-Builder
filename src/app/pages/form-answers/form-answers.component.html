@@ -1,0 +1,25 @@
+<div class="form-answers">
+    <div class="form-answers__form">
+        @if ((questions$ | async)?.length) {
+        @for (item of questions$ | async; track $index) {
+        <div>
+            <p class="form-answers__question">{{ item.question }} {{ item.required ? '*' : '' }}</p>
+            @for (answer of item.answers; track $index) {
+            <p class="form-answers__answer">{{ answer }}</p>
+            }
+
+            @if(item.otherAnswer) {
+            <p class="form-answers__answer">Other - {{ item.otherAnswer }}</p>
+            }
+        </div>
+        }
+        } @else {
+        <p>You have no answer yet</p>
+        }
+
+        <a mat-fab extended color="primary" routerLink="../builder">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            Back to forms builder
+        </a>
+    </div>
+</div>

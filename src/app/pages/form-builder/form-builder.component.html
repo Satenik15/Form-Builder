@@ -1,0 +1,57 @@
+<div class="form-builder">
+    @if(!(isFormShown$ | async)) {
+    <button mat-flat-button color="primary" (click)="openFormBuilderDialog()">Add a Question</button>
+    } @else {
+    <form class="form-builder__form" [formGroup]="form">
+        <ng-container formArrayName="questions">
+            @for (question of questions.controls; track $index) {
+            <div [formGroupName]="$index">
+                <p>{{ question.value.question }} <span class="required">{{ question.value.required ? '*' : '' }}</span>
+                </p>
+
+                @if(question.value.questionType === 'paragraph') {
+                <mat-form-field>
+                    <mat-label>Type answer here</mat-label>
+                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="answer"></textarea>
+                </mat-form-field>
+                } @else {
+                <div class="form-builder__checkbox-wrapper">
+
+                    @for (item of question.value.answers; track item; let ind = $index) {
+                    <mat-checkbox color="primary" [required]="question.value.required"
+                        (change)="onChange($event, item.answer, $index)">
+                        {{ item.answer }}
+                    </mat-checkbox>
+                    }
+
+                    @if(question.value.specificAnswer) {
+                    <mat-checkbox color="primary" formControlName="isOther" (change)="errorMsg.set('')">
+                        Other
+                    </mat-checkbox>
+                    }
+                </div>
+
+                @if(question.value.isOther) {
+                <mat-form-field>
+                    <mat-label>Type your answer here</mat-label>
+                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="otherAnswer"></textarea>
+                </mat-form-field>
+                }
+                }
+            </div>
+            }
+        </ng-container>
+
+        <button mat-button color="primary" (click)="openFormBuilderDialog()">Add New Question</button>
+
+        @if (errorMsg()) {
+        <p class="error-msg">{{ errorMsg() }}</p>
+        }
+
+        <button mat-fab extended color="primary" (click)="onNavigate()">
+            Review my answers
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </form>
+    }
+</div>
